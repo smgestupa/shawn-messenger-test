@@ -51,7 +51,7 @@ const postWebhook = (req, res) => {
 }
 
 // Handle `messages` events
-const handleMessage = (sender_psid, received_message) => {
+const handleMessage = async (sender_psid, received_message) => {
     let response;
 
     if (received_message.text) {
@@ -88,7 +88,7 @@ const handleMessage = (sender_psid, received_message) => {
         };
     }
 
-    callSendAPI(sender_psid, response);
+    await callSendAPI(sender_psid, response);
 };
 
 // Handle `messaging_postbacks` events
@@ -111,11 +111,14 @@ const handlePostback = (sender_psid, received_message) => {
 
 // Send response messages via the Send API
 const callSendAPI = async (sender_psid, received_message) => {
-    console.log(`https://graph.facebook.com/v14.0/me/messages?recipient={'id': '${sender_psid}'}&messaging_type=RESPONSE&message=${JSON.stringify(received_message)}&access_token=${process.env.PAGE_ACCESS_TOKEN}`);
-
-    const req = fetch(`https://graph.facebook.com/v14.0/me/messages?recipient={'id': '${sender_psid}'}&messaging_type=RESPONSE&message=${JSON.stringify(received_message)}&access_token=${process.env.PAGE_ACCESS_TOKEN}`, 
+    const req = await fetch(`https://graph.facebook.com/v14.0/me/messages?access_token=${process.env.PAGE_ACCESS_TOKEN}`, 
     {
-        method: "POST"
+        method: "POST",
+        body: JSON.stringify({
+            recipient: { id: sender_psid },
+            messaging_type: "RESPONSE",
+            message: received_message
+        })
     });
 
     if (req.status === 200) {
