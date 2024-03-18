@@ -1,0 +1,23 @@
+{
+  "name": "shawn-messenger-test",
+  "version": "1.0.0",
+  "description": "Facebook messenger chatbot.",
+  "scripts": {
+    "start": "nodemon --exec babel-node src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.9",
+    "express": "^4.18.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/node": "^7.23.9",
+    "@babel/preset-env": "^7.24.0",
+    "nodemon": "^3.1.0"
+  }
+}
