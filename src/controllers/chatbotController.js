@@ -121,7 +121,7 @@ const callSendAPI = async (sender_psid, received_message) => {
     if (req.status === 200) {
         console.log("Message sent!");
     } else {
-        console.error("Unable to send messages.");
+        console.error("Something went wrong when sending messages!");
     }
 };
 
