@@ -79,6 +79,12 @@ const callSendAPI = async (sender_psid, received_message) => {
         method: "POST"
     });
 
+    console.log(`https://graph.facebook.com/v14.0/me/messages
+    ?recipient={'id': '${sender_psid}'}
+    &messaging_type=RESPONSE
+    &message={'text': '${received_message}'}
+    &access_token=${process.env.PAGE_ACCESS_TOKEN}`);
+
     if (req.status === 200) {
         console.log("Message sent!");
     } else {
