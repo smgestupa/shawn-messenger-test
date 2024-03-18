@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+import homepageService from "../services/homepageService.js";
+
 const getHomepage = (req, res) => {
     return res.send("hello world, world");
 };
@@ -135,8 +137,18 @@ const callSendAPI = async (sender_psid, received_message) => {
     }
 };
 
+const handleSetupProfile = async (req, res) => {
+    try {
+        await homepageService.handleSetupProfileAPI();
+        return res.redirect("/");
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 export default {
     getHomepage,
     getWebhook,
-    postWebhook
+    postWebhook,
+    handleSetupProfile
 }
