@@ -30,10 +30,10 @@ const postWebhook = (req, res) => {
     if (body.object === "page") {
         body.entry.forEach((entry) => {
             const webhook_event = entry.messaging[0];
-            console.log(webhook_event);
+            // console.log(webhook_event);
 
             const sender_psid = webhook_event.sender.id;
-            console.log(`Sender PSID: ${sender_psid}`);
+            // console.log(`Sender PSID: ${sender_psid}`);
             
             // Check if the event is a message or postback
             if (webhook_event.message) {
@@ -111,6 +111,8 @@ const handlePostback = (sender_psid, received_message) => {
 
 // Send response messages via the Send API
 const callSendAPI = async (sender_psid, received_message) => {
+    console.log(received_message);
+
     const req = fetch(`https://graph.facebook.com/v14.0/me/messages?recipient={'id': '${sender_psid}'}&messaging_type=RESPONSE&message=${received_message}&access_token=${process.env.PAGE_ACCESS_TOKEN}`, 
     {
         method: "POST"
