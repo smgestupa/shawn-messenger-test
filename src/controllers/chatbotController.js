@@ -29,7 +29,7 @@ const postWebhook = (req, res) => {
     // If the event is from a page subscription
     if (body.object === "page") {
         body.entry.forEach((entry) => {
-            const webhook_event = entry.message[0];
+            const webhook_event = entry.messaging[0];
             console.log(webhook_event);
 
             const sender_psid = webhook_event.sender.id;
