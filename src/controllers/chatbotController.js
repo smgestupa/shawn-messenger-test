@@ -72,7 +72,7 @@ const handlePostback = (sender_psid, received_message) => {
 const callSendAPI = async (sender_psid, received_message) => {
     const req = fetch(`https://graph.facebook.com/v19.0/me/messages
     ?recipient={'id': '${sender_psid}'}
-    &response_type=RESPONSE
+    &messaging_type=RESPONSE
     &message={'text': '${received_message}'}
     &access_token=${process.env.PAGE_ACCESS_TOKEN}`, 
     {
