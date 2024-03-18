@@ -70,14 +70,12 @@ const handlePostback = (sender_psid, received_message) => {
 
 // Send response messages via the Send API
 const callSendAPI = async (sender_psid, received_message) => {
-    const requestBody = {
-        recipient: {
-            id: sender_psid
-        },
-        message: received_message
-    };
-
-    const req = fetch(`https://graph.facebook.com/v19.0/me/messages?access_token=${process.env.PAGE_ACCESS_TOKEN}`, {
+    const req = fetch(`https://graph.facebook.com/v19.0/me/messages
+    ?recipient={'id': '${sender_psid}'}
+    &response_type=RESPONSE
+    &message={'text': '${received_message}'}
+    &access_token=${process.env.PAGE_ACCESS_TOKEN}`, 
+    {
         method: "POST",
         body: requestBody
     });
