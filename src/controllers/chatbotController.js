@@ -58,7 +58,7 @@ const handleMessage = (sender_psid, received_message) => {
         response = {
             text: `You sent the message: ${received_message.text}. Now send me an image!`
         };
-    } else if (received_message.attachment) {
+    } else if (received_message.attachments) {
         const attachment_url = received_message.attachments[0].payload.url;
 
         response = {
