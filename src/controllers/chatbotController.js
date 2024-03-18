@@ -76,8 +76,7 @@ const callSendAPI = async (sender_psid, received_message) => {
     &message={'text': '${received_message}'}
     &access_token=${process.env.PAGE_ACCESS_TOKEN}`, 
     {
-        method: "POST",
-        body: requestBody
+        method: "POST"
     });
 
     if (req.status === 200) {
