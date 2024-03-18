@@ -58,6 +58,34 @@ const handleMessage = (sender_psid, received_message) => {
         response = {
             text: `You sent the message: ${received_message.text}. Now send me an image!`
         };
+    } else if (received_message.attachment) {
+        const attachment_url = received_message.attachments[0].payload.url;
+
+        response = {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "generic",
+                    elements: [{
+                        title: "Is this the right picture?",
+                        subtitle: "Choose Yes if it's correct, otherwise No.",
+                        image_url: attachment_url,
+                        buttons: [
+                            {
+                                type: "postback",
+                                title: "Yes",
+                                payload: "yes"
+                            },
+                            {
+                                type: "postback",
+                                title: "No",
+                                payload: "no"
+                            }
+                        ]
+                    }]
+                }
+            }
+        };
     }
 
     callSendAPI(sender_psid, response);
@@ -65,12 +93,25 @@ const handleMessage = (sender_psid, received_message) => {
 
 // Handle `messaging_postbacks` events
 const handlePostback = (sender_psid, received_message) => {
+    let response;
 
+    const payload = received_message.payload;
+    if (payload === "yes") {
+        response = {
+            text: "Thanks!"
+        };
+    } else if (payload === "no") {
+        response = {
+            text: "Womp womp! Try sending another image."
+        };
+    }
+
+    callSendAPI(response);
 };
 
 // Send response messages via the Send API
 const callSendAPI = async (sender_psid, received_message) => {
-    const req = fetch(`https://graph.facebook.com/v14.0/me/messages?recipient={'id': '${sender_psid}'}&messaging_type=RESPONSE&message={'text': '${received_message.text}'}&access_token=${process.env.PAGE_ACCESS_TOKEN}`, 
+    const req = fetch(`https://graph.facebook.com/v14.0/me/messages?recipient={'id': '${sender_psid}'}&messaging_type=RESPONSE&message=${received_message}&access_token=${process.env.PAGE_ACCESS_TOKEN}`, 
     {
         method: "POST"
     });
