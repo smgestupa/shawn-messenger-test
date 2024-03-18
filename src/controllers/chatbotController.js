@@ -98,15 +98,22 @@ const handlePostback = (sender_psid, received_message) => {
     let response;
 
     const payload = received_message.payload;
-    if (payload === "yes") {
-        response = {
-            text: "Thanks!"
-        };
-    } else if (payload === "no") {
-        response = {
-            text: "Womp womp! Try sending another image."
-        };
-    }
+    switch (payload) {
+        case "GET_STARTED": 
+            response = {
+                text: "An agent will be here shortly!"
+            };
+            break;
+        case "yes":
+            response = {
+                text: "Thanks!"
+            };
+            break;
+        case "no":
+            response = {
+                text: "Womp womp! Try sending another image."
+            };
+    };
 
     callSendAPI(sender_psid, response);
 };
@@ -122,12 +129,7 @@ const callSendAPI = async (sender_psid, received_message) => {
 
     const req = await fetch(`https://graph.facebook.com/v14.0/me/messages?${params.toString()}`, 
     {
-        method: "POST",
-        body: JSON.stringify({
-            recipient: { id: sender_psid },
-            messaging_type: "RESPONSE",
-            message: received_message
-        })
+        method: "POST"
     });
 
     if (req.status === 200) {
@@ -135,6 +137,10 @@ const callSendAPI = async (sender_psid, received_message) => {
     } else {
         console.error("Something went wrong when sending messages!");
     }
+};
+
+const getSetupProfile = async (req, res) => {
+    return res.render("profile.ejs");
 };
 
 const handleSetupProfile = async (req, res) => {
@@ -150,5 +156,6 @@ export default {
     getHomepage,
     getWebhook,
     postWebhook,
-    handleSetupProfile
+    handleSetupProfile,
+    getSetupProfile
 }
