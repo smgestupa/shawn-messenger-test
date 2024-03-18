@@ -106,7 +106,7 @@ const handlePostback = (sender_psid, received_message) => {
         };
     }
 
-    callSendAPI(response);
+    callSendAPI(sender_psid, response);
 };
 
 // Send response messages via the Send API
