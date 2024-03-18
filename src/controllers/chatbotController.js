@@ -34,6 +34,13 @@ const postWebhook = (req, res) => {
 
             const sender_psid = webhook_event.sender.id;
             console.log(`Sender PSID: ${sender_psid}`);
+            
+            // Check if the event is a message or postback
+            if (webhook_event.message) {
+                handleMessage(sender_psid, webhook_event.message);
+            } else if (webhook_event.postback) {
+                handlePostback(sender_psid, webhook_event.postback);
+            }
         });
         
         res.status(200).send("EVENT_RECEIVED");
@@ -42,6 +49,45 @@ const postWebhook = (req, res) => {
         res.sendStatus(404); // 404 means Not Found
     }
 }
+
+// Handle `messages` events
+const handleMessage = (sender_psid, received_message) => {
+    let response;
+
+    if (received_message.text) {
+        response = {
+            text: `You sent the message: ${received_message.text}. Now send me an image!`
+        };
+    }
+
+    callSendAPI(sender_psid, response);
+};
+
+// Handle `messaging_postbacks` events
+const handlePostback = (sender_psid, received_message) => {
+
+};
+
+// Send response messages via the Send API
+const callSendAPI = async (sender_psid, received_message) => {
+    const requestBody = {
+        recipient: {
+            id: sender_psid
+        },
+        message: received_message
+    };
+
+    const req = fetch(`https://graph.facebook.com/v19.0/me/messages?access_token=${process.env.PAGE_ACCESS_TOKEN}`, {
+        method: "POST",
+        body: requestBody
+    });
+
+    if (req.status === 200) {
+        console.log("Message sent!");
+    } else {
+        console.error("Unable to send messages.");
+    }
+};
 
 export default {
     getHomepage,
