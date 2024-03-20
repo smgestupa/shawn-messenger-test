@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/reset.css">
+    <title>Send an inquiry</title>
+    <script defer></script>
+    <style>
+        body {
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            padding: 1rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            row-gap: 1rem;
+        }
+
+        form > section > label {
+            display: block;
+        }
+
+        form > section > label > span {
+            font-weight: bold;
+            color: red;
+        }
+        
+        form > section > input {
+            background-color: #f9f9f9;
+            color: #495057;
+            width: 50%;
+            min-width: 18rem;
+            height: 3rem;
+            border: 1px solid #EEF2F6;
+            margin-top: 0.5rem;
+            padding: 0.25rem 0.5rem;
+        }
+
+        form > section > textarea {
+            background-color: #f9f9f9;
+            color: #495057;
+            width: 100%;
+            height: 8rem;
+            min-height: 8rem;
+            border: 1px solid #EEF2F6;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+        }
+
+        form > section > input::placeholder,
+        form > section > textarea::placeholder {
+            color: #49505780;
+        }
+
+        form > section > input:focus,
+        form > section > textarea:focus {
+            outline: none;
+        }
+
+        form > button {
+            background-color: #f37321 !important;
+            color: #fff;
+            width: fit-content;
+            margin: 1rem 0;
+            padding: 1rem 3rem;
+            transition-duration: 200ms;
+        }
+
+        form > button:hover {
+            background-color: #d55a0c !important;
+        }
+
+        footer {
+            text-align: right;
+            margin-top: 4rem;
+        }
+
+        footer > p > span {
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <form method="POST" action="/send-inquiry">
+        <section>
+            <label for="contact-name">Contact Name<span>*</span></label>
+            <input id="contact-name" type="text" name="contact-name" required>
+        </section>
+        <section>
+            <label for="company-name">Company Name<span>*</span></label>
+            <input id="company-name" type="text" name="company-name" required>
+        </section>
+        <section>
+            <label for="company-email">Company Email<span>*</span></label>
+            <input id="company-email" type="text" name="company-email" placeholder="jane.doe@example.com" pattern="([@](\w|\d)+[.](\w{2,}))$" required>
+        </section>
+        <section>
+            <label for="mobile-number">Mobile Number<span>*</span></label>
+            <input id="mobile-number" type="text" name="mobile-number" placeholder="09123456789" pattern="^(\d{11})$" required>
+        </section>
+        <section>
+            <label for="message-textarea">Message<span>*</span></label>
+            <textarea id="message-textarea" name="message-textarea" cols="30" rows="10"></textarea>
+        </section>
+        <button type="submit">SUBMIT</button>
+    </form>
+    <footer>
+        <p>© 2024 - Copyright Reserved to <span id="text-highlight-ctp">Computrade Technology Philippines</span>.</p>
+    </footer>
+</body>
+</html>
