@@ -33,9 +33,11 @@ initWebRoutes(app);
                             payload: "BTN_TALK_AGENT"
                         },
                         {
-                            type: "postback",
+                            type: "web_url",
                             title: "Send an inquiry",
-                            payload: "BTN_SEND_INQUIRY"
+                            url: "https://shawn-messenger-test.onrender.com/get-inquiry",
+                            webview_height_ratio: "tall",
+                            messenger_extensions: true
                         }
                     ]
                 }
