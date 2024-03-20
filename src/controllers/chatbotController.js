@@ -1,7 +1,5 @@
 require("dotenv").config();
 
-import homepageService from "../services/homepageService.js";
-
 const getHomepage = (req, res) => {
     return res.send("hello world, world");
 };
