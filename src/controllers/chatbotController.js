@@ -54,68 +54,84 @@ const postWebhook = (req, res) => {
 
 // Handle `messages` events
 const handleMessage = async (sender_psid, received_message) => {
-    let response;
-
-    if (received_message.text) {
-        response = {
-            text: `You sent the message: ${received_message.text}. Now send me an image!`
-        };
-    } else if (received_message.attachments) {
-        const attachment_url = received_message.attachments[0].payload.url;
-
-        response = {
-            attachment: {
-                type: "template",
-                payload: {
-                    template_type: "generic",
-                    elements: [{
-                        title: "Is this the right picture?",
-                        subtitle: "Choose Yes if it's correct, otherwise No.",
-                        image_url: attachment_url,
-                        buttons: [
-                            {
-                                type: "postback",
-                                title: "Yes",
-                                payload: "yes"
-                            },
-                            {
-                                type: "postback",
-                                title: "No",
-                                payload: "no"
-                            }
-                        ]
-                    }]
+    // Always show quick replies during chat
+    if (received_message.text || received_message.attachments) {
+        const quick_replies = {
+            quick_replies: [
+                {
+                    content_type: "text",
+                    title: "Talk to an agent",
+                    payload: "BTN_TALK_AGENT"
+                },
+                {
+                    content_type: "text",
+                    title: "Send inquiry",
+                    payload: "BTN_SEND_INQUIRY"
                 }
-            }
+            ]
         };
+
+        await callSendAPI(sender_psid, quick_replies);
     }
 
-    await callSendAPI(sender_psid, response);
+    let response;
+
+    // if (received_message.text) {
+    //     response = {
+    //         text: `You sent the message: ${received_message.text}. Now send me an image!`
+    //     };
+    // } else if (received_message.attachments) {
+    //     const attachment_url = received_message.attachments[0].payload.url;
+
+    //     response = {
+    //         attachment: {
+    //             type: "template",
+    //             payload: {
+    //                 template_type: "generic",
+    //                 elements: [{
+    //                     title: "Is this the right picture?",
+    //                     subtitle: "Choose Yes if it's correct, otherwise No.",
+    //                     image_url: attachment_url,
+    //                     buttons: [
+    //                         {
+    //                             type: "postback",
+    //                             title: "Yes",
+    //                             payload: "yes"
+    //                         },
+    //                         {
+    //                             type: "postback",
+    //                             title: "No",
+    //                             payload: "no"
+    //                         }
+    //                     ]
+    //                 }]
+    //             }
+    //         }
+    //     };
+    // }
+
+    // await callSendAPI(sender_psid, response);
 };
 
 // Handle `messaging_postbacks` events
-const handlePostback = (sender_psid, received_message) => {
+const handlePostback = async (sender_psid, received_message) => {
+    const payload = received_message.payload;
     let response;
 
-    const payload = received_message.payload;
     switch (payload) {
-        case "GET_STARTED": 
+        case "BTN_TALK_AGENT": 
             response = {
                 text: "An agent will be here shortly!"
             };
             break;
-        case "yes":
+        case "BTN_SEND_INQUIRY":
             response = {
-                text: "Thanks!"
+                text: "*a form should open here*"
             };
             break;
-        case "no":
-            response = {
-                text: "Womp womp! Try sending another image."
-            };
     };
 
-    callSendAPI(sender_psid, response);
+    await callSendAPI(sender_psid, response);
 };
 
 // Send response messages via the Send API
