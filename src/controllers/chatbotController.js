@@ -162,6 +162,5 @@ const callSendAPI = async (sender_psid, received_message) => {
 export default {
     getHomepage,
     getWebhook,
-    postWebhook,
-    getSetupProfile
+    postWebhook
 }
