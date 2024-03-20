@@ -55,27 +55,27 @@ const postWebhook = (req, res) => {
 // Handle `messages` events
 const handleMessage = async (sender_psid, received_message) => {
     // Always show quick replies during chat
-    if (received_message.text || received_message.attachments) {
-        const quick_replies = {
-            text: "",
-            quick_replies: [
-                {
-                    content_type: "text",
-                    title: "Talk to an agent",
-                    payload: "BTN_TALK_AGENT"
-                },
-                {
-                    content_type: "text",
-                    title: "Send inquiry",
-                    payload: "BTN_SEND_INQUIRY"
-                }
-            ]
-        };
+    // if (received_message.text || received_message.attachments) {
+    //     const quick_replies = {
+    //         text: "",
+    //         quick_replies: [
+    //             {
+    //                 content_type: "text",
+    //                 title: "Talk to an agent",
+    //                 payload: "BTN_TALK_AGENT"
+    //             },
+    //             {
+    //                 content_type: "text",
+    //                 title: "Send inquiry",
+    //                 payload: "BTN_SEND_INQUIRY"
+    //             }
+    //         ]
+    //     };
 
-        await callSendAPI(sender_psid, quick_replies);
-    }
+    //     await callSendAPI(sender_psid, quick_replies);
+    // }
 
-    let response;
+    // let response;
 
     // if (received_message.text) {
     //     response = {
@@ -155,7 +155,7 @@ const callSendAPI = async (sender_psid, received_message) => {
     if (req.status === 200) {
         console.log("Message successfully sent!");
     } else {
-        console.error(`Something went wrong when sending messages!\n${JSON.stringify(res)}`);
+        console.error(JSON.stringify(res));
     }
 };
 

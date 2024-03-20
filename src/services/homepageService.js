@@ -4,7 +4,6 @@ const handleSetupProfileAPI = () => {
     return new Promise(async (resolve, reject) => {
         try {
             const params = new URLSearchParams({
-                get_started: JSON.stringify({ payload: "GET_STARTED" }),
                 persistent_menu: JSON.stringify([
                     {
                         locale: "default",
@@ -12,20 +11,14 @@ const handleSetupProfileAPI = () => {
                         call_to_actions: [
                             {
                                 type: "postback",
-                                title: "Talk to an agent",
-                                payload: "CARE_HELP"
+                                title: "Notify an agent!",
+                                payload: "BTN_TALK_AGENT"
                             },
                             {
                                 type: "postback",
-                                title: "Outfit suggestions",
-                                payload: "CURATION"
-                            },
-                            {
-                                type: "web_url",
-                                title: "Shop now",
-                                url: "https://google.com",
-                                webview_height_ratio: "full"
-                            },
+                                title: "Send an inquiry",
+                                payload: "BTN_SEND_INQUIRY"
+                            }
                         ]
                     }
                 ]),
