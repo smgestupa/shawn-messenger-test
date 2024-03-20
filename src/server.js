@@ -54,7 +54,7 @@ initWebRoutes(app);
     } catch (error) {
         console.error(error);
     }
-});
+})();
 
 app.listen(PORT, () => {
     console.log(`Application is running at port ${PORT}.`);

@@ -159,23 +159,9 @@ const callSendAPI = async (sender_psid, received_message) => {
     }
 };
 
-const getSetupProfile = async (req, res) => {
-    return res.render("profile.ejs");
-};
-
-const handleSetupProfile = async (req, res) => {
-    try {
-        await homepageService.handleSetupProfileAPI();
-        return res.redirect("/");
-    } catch (error) {
-        console.error(error);
-    }
-};
-
 export default {
     getHomepage,
     getWebhook,
     postWebhook,
-    handleSetupProfile,
     getSetupProfile
 }
