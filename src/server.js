@@ -29,7 +29,7 @@ initWebRoutes(app);
                     call_to_actions: [
                         {
                             type: "postback",
-                            title: "Notify an agent!",
+                            title: "Notify an agent",
                             payload: "BTN_TALK_AGENT"
                         },
                         {
