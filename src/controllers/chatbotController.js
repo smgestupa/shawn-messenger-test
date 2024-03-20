@@ -57,6 +57,7 @@ const handleMessage = async (sender_psid, received_message) => {
     // Always show quick replies during chat
     if (received_message.text || received_message.attachments) {
         const quick_replies = {
+            text: "",
             quick_replies: [
                 {
                     content_type: "text",
@@ -149,11 +150,12 @@ const callSendAPI = async (sender_psid, received_message) => {
     {
         method: "POST"
     });
+    const res = await req.json();
 
     if (req.status === 200) {
-        console.log("Message sent!");
+        console.log("Message successfully sent!");
     } else {
-        console.error("Something went wrong when sending messages!");
+        console.error(`Something went wrong when sending messages!\n${JSON.stringify(res)}`);
     }
 };
 
