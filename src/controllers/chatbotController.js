@@ -50,6 +50,14 @@ const postWebhook = (req, res) => {
     }
 }
 
+const postInquiryForm = async (req, res) => {
+    console.log("among us!");
+};
+
+const getInquiryForm = (req, res) => {
+    return res.render("inquiry-form.ejs");
+}
+
 // Handle `messages` events
 const handleMessage = async (sender_psid, received_message) => {
     // Always show quick replies during chat
@@ -160,5 +168,7 @@ const callSendAPI = async (sender_psid, received_message) => {
 export default {
     getHomepage,
     getWebhook,
-    postWebhook
+    getInquiryForm,
+    postWebhook,
+    postInquiryForm
 }
