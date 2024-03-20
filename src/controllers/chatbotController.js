@@ -143,6 +143,8 @@ const callSendAPI = async (sender_psid, received_message) => {
         access_token: process.env.PAGE_ACCESS_TOKEN
     });
 
+    console.log(`https://graph.facebook.com/v14.0/me/messages?${params.toString()}`);
+
     const req = await fetch(`https://graph.facebook.com/v14.0/me/messages?${params.toString()}`, 
     {
         method: "POST"
