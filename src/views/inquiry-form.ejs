@@ -53,20 +53,27 @@
                 });
     
                 if (req.status === 200) {
-                    MessengerExtensions.requestCloseBrowser(function success() {
-                        console.log("Closing WebView browser...");
-                        fetch(`${window.location.origin}/post-inquiry`, {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({ senderPsid, requestBody })
-                        });
-                    },
-                    function error(error) {
-                        console.error(error);
-                        window.top.close();
+                    fetch(`${window.location.origin}/post-inquiry`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ senderPsid, requestBody })
                     });
+                    MessengerExtensions.requestCloseBrowser(async function success() {
+                        console.log("Closing WebView browser...");
+                        // await fetch(`${window.location.origin}/post-inquiry`, {
+                        //     method: "POST",
+                        //     headers: {
+                        //         "Content-Type": "application/json"
+                        //     },
+                        //     body: JSON.stringify({ senderPsid, requestBody })
+                        // });
+                    }, function error(error) {
+                            console.error(error);
+                            window.top.close();
+                        }
+                    );
                 }
             };
         };
