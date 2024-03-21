@@ -50,10 +50,6 @@ const postWebhook = (req, res) => {
     }
 }
 
-const postInquiryForm = async (req, res) => {
-    console.log("among us!");
-};
-
 const getInquiryForm = (req, res) => {
     return res.render("inquiry-form.ejs");
 }
