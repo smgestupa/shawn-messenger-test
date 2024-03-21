@@ -58,7 +58,7 @@ const postInquiryForm = (req, res) => {
     const { senderPsid, requestBody } = req.body; 
 
     const response = {
-        text: `Your inquiry has been successfuly sent!\n\nContact Name: ${requestBody["contact-name"]}\nContact Email: ${requestBody["contact-email"]}\nCompany Name: ${requestBody["company-name"]}\nCompany Email: ${requestBody["company-email"]}\nMobile Number: ${requestBody["mobile-number"]}\nType of Inquiry: ${requestBody["inquiry-type"]}\nMessage: ${requestBody["message"]}`
+        text: `Your inquiry has been successfuly sent!\u000A\u000AContact Name: ${requestBody["contact-name"]}\u000AContact Email: ${requestBody["contact-email"]}\u000ACompany Name: ${requestBody["company-name"]}\u000ACompany Email: ${requestBody["company-email"]}\u000AMobile Number: ${requestBody["mobile-number"]}\u000AType of Inquiry: ${requestBody["inquiry-type"]}\u000AMessage: ${requestBody["message"]}`
     };
     
     callSendAPI(senderPsid, response);
