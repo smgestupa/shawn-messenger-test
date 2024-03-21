@@ -54,6 +54,24 @@ const getInquiryForm = (req, res) => {
     return res.render("inquiry-form.ejs");
 }
 
+const postInquiryForm = (req, res) => {
+    const { senderPsid, requestBody } = req.body; 
+
+    const response = {
+        text: `Your inquiry has been successfuly sent!\n\n
+        Contact Name: ${requestBody["contact-name"]}\n
+        Contact Email: ${requestBody["contact-email"]}\n
+        Company Name: ${requestBody["company-name"]}\n
+        Company Email: ${requestBody["company-email"]}\n
+        Mobile Number: ${requestBody["mobile-number"]}\n
+        Type of Inquiry: ${requestBody["inquiry-type"]}\n
+        Message: ${requestBody["message-textarea"]}\n
+        `
+    };
+
+    callSendAPI(senderPsid, response);
+};
+
 // Handle `messages` events
 const handleMessage = async (sender_psid, received_message) => {
     // Always show quick replies during chat
@@ -127,11 +145,6 @@ const handlePostback = async (sender_psid, received_message) => {
                 text: "An agent will be here shortly!"
             };
             break;
-        case "BTN_SEND_INQUIRY":
-            response = {
-                text: "*a form should open here*"
-            };
-            break;
     };
 
     await callSendAPI(sender_psid, response);
@@ -165,5 +178,6 @@ export default {
     getHomepage,
     getWebhook,
     getInquiryForm,
-    postWebhook
+    postWebhook,
+    postInquiryForm
 }

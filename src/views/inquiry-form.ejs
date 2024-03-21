@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/reset.css">
     <title>Send an inquiry</title>
-    <script>
+    <script>        
         // Include the Messenger Extensions JS SDK
         (function(d, s, id){
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -15,6 +15,16 @@
             js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'Messenger'));
+
+        let senderPsid; 
+
+        window.extAsyncInit = () => {
+            MessengerExtensions.getContext(1384649859599741, function success(thread_context) {
+                senderPsid = thread_context.psid;
+            }, function error(error) {
+                console.error(error);
+            });
+        };
         
         // Client-side code
         window.onload = () => {
@@ -43,7 +53,20 @@
                 });
     
                 if (req.status === 200) {
-                    window.top.close();
+                    MessengerExtensions.requestCloseBrowser(function success() {
+                        console.log("Closing WebView browser...");
+                        fetch("/post-inquiry", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({ senderPsid, requestBody })
+                        });
+                    },
+                    function error(error) {
+                        console.error(error);
+                        window.top.close();
+                    });
                 }
             };
         };
