@@ -16,13 +16,14 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'Messenger'));
 
-        // Client-side code
-        window.onload = () => {
+        window.extAsyncInit = () => {
             const iframe = window.document.getElementsByName(window.name);
             // iframe.style = "position: absolute; top: 0; left: 0";
+            console.log(iframe);
+        }
 
-            console.log(iframe.contentWindow + " " + iframe.contentDocument);
-
+        // Client-side code
+        window.onload = () => {
             const inquiryForm = window.document.getElementById("inquiry-form");
     
             inquiryForm.onsubmit = async (event) => {
