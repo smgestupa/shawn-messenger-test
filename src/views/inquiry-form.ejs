@@ -6,6 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/reset.css">
     <title>Send an inquiry</title>
+    <script>
+        window.onload = () => {
+            const inquiryForm = window.document.getElementById("inquiry-form");
+    
+            inquiryForm.onsubmit = async (event) => {
+                event.preventDefault();
+                const formData = new FormData(event.target);
+                const requestBody = {
+                    "contact-name": formData.get("contact-name"),
+                    "contact-email": formData.get("contact-email"),
+                    "company-name": formData.get("company-name"),
+                    "company-email": formData.get("company-email"),
+                    "mobile-number": formData.get("mobile-number"),
+                    "inquiry-type": formData.get("inquiry-type"),
+                    "message": formData.get("message-textarea"),
+                };
+    
+                const req = await fetch("https://o5noxsqaoctrgtjzql5tg7hafm0vqnrd.lambda-url.ap-southeast-1.on.aws/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+    
+                if (req.status === 200) {
+                    inquiryForm.reset();
+                }
+            };
+        };
+    </script>
     <style>
         .mt-3 {
             margin-top: 0.75rem;
@@ -133,37 +165,5 @@
     <footer>
         <p>© 2024 - Copyright Reserved to <span id="text-highlight-ctp">Computrade Technology Philippines</span>.</p>
     </footer>
-    <script defer>
-        const inquiryForm = window.document.getElementById("inquiry-form");
-
-        inquiryForm.onsubmit = async (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const requestBody = {
-                "contact-name": formData.get("contact-name"),
-                "contact-email": formData.get("contact-email"),
-                "company-name": formData.get("company-name"),
-                "company-email": formData.get("company-email"),
-                "mobile-number": formData.get("mobile-number"),
-                "inquiry-type": formData.get("inquiry-type"),
-                "message": formData.get("message-textarea"),
-            };
-
-            const req = await fetch("https://o5noxsqaoctrgtjzql5tg7hafm0vqnrd.lambda-url.ap-southeast-1.on.aws/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*"
-                },
-                body: JSON.stringify(requestBody)
-            });
-
-            console.log(JSON.stringify(requestBody));
-
-            if (req.status === 200) {
-                inquiryForm.reset();
-            }
-        };
-    </script>
 </body>
 </html>
