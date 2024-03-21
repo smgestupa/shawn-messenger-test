@@ -55,7 +55,7 @@
                 if (req.status === 200) {
                     MessengerExtensions.requestCloseBrowser(function success() {
                         console.log("Closing WebView browser...");
-                        fetch("/post-inquiry", {
+                        fetch(`${window.location.origin}/post-inquiry`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json"
