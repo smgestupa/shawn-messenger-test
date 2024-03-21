@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/reset.css">
     <title>Send an inquiry</title>
-    <script defer>
+    <script>
         // Include the Messenger Extensions JS SDK
         (function(d, s, id){
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -16,6 +16,15 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'Messenger'));
 
+        window.extAsyncInit = () => {
+            const iframe = window.document.getElementsByName(window.name);
+            iframe.style.display = "absolute";
+            iframe.style.top = 0;
+            iframe.style.left = 0;
+            console.log(window.name);
+        };
+
+        // Client-side code
         window.onload = () => {
             const inquiryForm = window.document.getElementById("inquiry-form");
     
