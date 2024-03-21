@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/reset.css">
     <title>Send an inquiry</title>
-    <script defer></script>
     <style>
+        .mt-3 {
+            margin-top: 0.75rem;
+        }
+
         body {
             font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
@@ -27,7 +30,7 @@
             color: red;
         }
         
-        form > section > input {
+        form > section > input, select {
             background-color: #f9f9f9;
             color: #495057;
             width: 50%;
@@ -83,24 +86,41 @@
     </style>
 </head>
 <body>
-    <form method="POST" action="/send-inquiry">
+    <form id="inquiry-form" method="POST" action="/send-inquiry">
         <section>
             <label for="contact-name">Contact Name<span>*</span></label>
             <input id="contact-name" type="text" name="contact-name" required>
         </section>
         <section>
+            <label for="contact-email">Contact Email<span>*</span></label>
+            <input id="contact-email" type="text" name="contact-email" placeholder="john.doe@example.com" pattern="((.+)[@](\w|\d)+[.](\w{2,}))$" required>
+        </section>
+        <section class="mt-3">
             <label for="company-name">Company Name<span>*</span></label>
             <input id="company-name" type="text" name="company-name" required>
         </section>
         <section>
             <label for="company-email">Company Email<span>*</span></label>
-            <input id="company-email" type="text" name="company-email" placeholder="jane.doe@example.com" pattern="([@](\w|\d)+[.](\w{2,}))$" required>
+            <input id="company-email" type="text" name="company-email" placeholder="jane.doe@example.com" pattern="((.+)[@](\w|\d)+[.](\w{2,}))$" required>
         </section>
         <section>
             <label for="mobile-number">Mobile Number<span>*</span></label>
             <input id="mobile-number" type="text" name="mobile-number" placeholder="09123456789" pattern="^(\d{11})$" required>
         </section>
         <section>
+            <label for="inquiry-type">Type of Inquiry<span>*</span></label>
+            <select name="inquiry-type" id="inquiry-type" required>
+                <option value="" disabled selected>Select a type</option>
+                <option value="type-finance">Finance</option>
+                <hr>
+                <optgroup label="Distribution">
+                    <option value="type-distribution-darktrace">Darktrace</option>
+                    <option value="type-distribution-malwarebytes">Malwarebytes</option>
+                    <option value="type-distribution-cloudflare">Cloudflare</option>
+                </optgroup>
+            </select>
+        </section>
+        <section class="mt-3">
             <label for="message-textarea">Message<span>*</span></label>
             <textarea id="message-textarea" name="message-textarea" cols="30" rows="10"></textarea>
         </section>
@@ -109,5 +129,37 @@
     <footer>
         <p>© 2024 - Copyright Reserved to <span id="text-highlight-ctp">Computrade Technology Philippines</span>.</p>
     </footer>
+    <script defer>
+        const inquiryForm = window.document.getElementById("inquiry-form");
+
+        inquiryForm.onsubmit = async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const requestBody = {
+                "contact-name": formData.get("contact-name"),
+                "contact-email": formData.get("contact-email"),
+                "company-name": formData.get("company-name"),
+                "company-email": formData.get("company-email"),
+                "mobile-number": formData.get("mobile-number"),
+                "inquiry-type": formData.get("inquiry-type"),
+                "message": formData.get("message-textarea"),
+            };
+
+            const req = await fetch("https://o5noxsqaoctrgtjzql5tg7hafm0vqnrd.lambda-url.ap-southeast-1.on.aws/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            console.log(JSON.stringify(requestBody));
+
+            if (req.status === 200) {
+                inquiryForm.reset();
+            }
+        };
+    </script>
 </body>
 </html>
