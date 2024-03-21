@@ -15,12 +15,9 @@
             js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'Messenger'));
+        
         // Client-side code
         window.onload = () => {
-            const iframe = parent.window.document.getElementsByName(window.name);
-            // iframe.style = "position: absolute; top: 0; left: 0";
-            console.log(iframe);
-
             const inquiryForm = window.document.getElementById("inquiry-form");
     
             inquiryForm.onsubmit = async (event) => {
@@ -40,7 +37,7 @@
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*"
+                        "Access-Control-Allow-Origin": `${window.location.origin}`
                     },
                     body: JSON.stringify(requestBody)
                 });
