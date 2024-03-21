@@ -15,15 +15,12 @@
             js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'Messenger'));
-
-        window.extAsyncInit = () => {
-            const iframe = parent.document.getElementsByName(window.name);
-            // iframe.style = "position: absolute; top: 0; left: 0";
-            console.log(iframe);
-        }
-
         // Client-side code
         window.onload = () => {
+            const iframe = parent.window.document.getElementsByName(window.name);
+            // iframe.style = "position: absolute; top: 0; left: 0";
+            console.log(iframe);
+
             const inquiryForm = window.document.getElementById("inquiry-form");
     
             inquiryForm.onsubmit = async (event) => {
