@@ -6,7 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/reset.css">
     <title>Send an inquiry</title>
-    <script>
+    <script defer>
+        // Include the Messenger Extensions JS SDK
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'Messenger'));
+
         window.onload = () => {
             const inquiryForm = window.document.getElementById("inquiry-form");
     
@@ -20,20 +29,23 @@
                     "company-email": formData.get("company-email"),
                     "mobile-number": formData.get("mobile-number"),
                     "inquiry-type": formData.get("inquiry-type"),
-                    "message": formData.get("message-textarea"),
+                    "message": formData.get("message-textarea")
                 };
     
                 const req = await fetch("https://o5noxsqaoctrgtjzql5tg7hafm0vqnrd.lambda-url.ap-southeast-1.on.aws/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*"
+                        "Access-Control-Allow-Origin": `${window.location.origin}`
                     },
                     body: JSON.stringify(requestBody)
                 });
     
                 if (req.status === 200) {
-                    inquiryForm.reset();
+                    MessengerExtensions.requestCloseBrowser(success = () => {},
+                    error = (error) => {
+                        console.error(error);
+                    });
                 }
             };
         };
