@@ -43,10 +43,7 @@
                 });
     
                 if (req.status === 200) {
-                    MessengerExtensions.requestCloseBrowser(success = () => {},
-                    error = (error) => {
-                        console.error(error);
-                    });
+                    window.top.close();
                 }
             };
         };
