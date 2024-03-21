@@ -165,6 +165,5 @@ export default {
     getHomepage,
     getWebhook,
     getInquiryForm,
-    postWebhook,
-    postInquiryForm
+    postWebhook
 }
