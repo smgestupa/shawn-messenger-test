@@ -33,7 +33,7 @@
             inquiryForm.onsubmit = async (event) => {
                 event.preventDefault();
                 const formData = new FormData(event.target);
-                const requestBody = {
+                const requestBody = JSON.stringify({
                     "contact-name": formData.get("contact-name"),
                     "contact-email": formData.get("contact-email"),
                     "company-name": formData.get("company-name"),
@@ -41,36 +41,36 @@
                     "mobile-number": formData.get("mobile-number"),
                     "inquiry-type": formData.get("inquiry-type"),
                     "message": formData.get("message-textarea")
-                };
-    
-                const req = await fetch("https://shz4ddz5j3.execute-api.ap-southeast-1.amazonaws.com/TestEnv/", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*"
-                    },
-                    body: JSON.stringify(requestBody)
                 });
-                const res = await req.json();
 
-                console.log(requestBody);
-    
-                if (req.status === 200) {
-                    console.log(res);x
-                    MessengerExtensions.requestCloseBrowser(async function success() {
-                        await fetch(`${window.location.origin}/post-inquiry`, {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({ senderPsid, requestBody })
-                        });
-                    }, function error(error) {
-                            console.error(error);
-                            window.top.close();
-                        }
-                    );
-                }
+                let myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                
+                var requestOptions = {
+                  method: 'POST',
+                  headers: myHeaders,
+                  body: requestBody,
+                  redirect: 'follow'
+                };
+                
+                fetch("https://shz4ddz5j3.execute-api.ap-southeast-1.amazonaws.com/TestEnv/", requestOptions)
+                  .then(response => response.text())
+                  .then(result => {
+                        MessengerExtensions.requestCloseBrowser(async function success() {
+                            //await fetch(`${window.location.origin}/post-inquiry`, {
+                            //    method: "POST",
+                              //  headers: {
+                                //    "Content-Type": "application/json"
+                               // },
+                               // body: JSON.stringify({ senderPsid, requestBody })
+                            // });
+                        }, function error(error) {
+                                console.error(error);
+                                window.top.close();
+                            }
+                        );
+                  })
+                  .catch(error => console.log('error', error));
             };
         };
     </script>
