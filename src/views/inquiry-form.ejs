@@ -51,8 +51,12 @@
                     },
                     body: JSON.stringify(requestBody)
                 });
+                const res = await req.json();
+
+                console.log(requestBody);
     
                 if (req.status === 200) {
+                    console.log(res);
                     MessengerExtensions.requestCloseBrowser(async function success() {
                         await fetch(`${window.location.origin}/post-inquiry`, {
                             method: "POST",
