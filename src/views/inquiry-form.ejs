@@ -8,23 +8,23 @@
     <title>Send an inquiry</title>
     <script>        
         // Include the Messenger Extensions JS SDK
-        (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'Messenger'));
+        // (function(d, s, id){
+        //     var js, fjs = d.getElementsByTagName(s)[0];
+        //     if (d.getElementById(id)) {return;}
+        //     js = d.createElement(s); js.id = id;
+        //     js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+        //     fjs.parentNode.insertBefore(js, fjs);
+        // }(document, 'script', 'Messenger'));
 
-        let senderPsid; 
+        // let senderPsid; 
 
-        window.extAsyncInit = () => {
-            MessengerExtensions.getContext(1384649859599741, function success(thread_context) {
-                senderPsid = thread_context.psid;
-            }, function error(error) {
-                console.error(error);
-            });
-        };
+        // window.extAsyncInit = () => {
+        //     MessengerExtensions.getContext(1384649859599741, function success(thread_context) {
+        //         senderPsid = thread_context.psid;
+        //     }, function error(error) {
+        //         console.error(error);
+        //     });
+        // };
         
         // Client-side code
         window.onload = () => {
@@ -33,7 +33,7 @@
             inquiryForm.onsubmit = async (event) => {
                 event.preventDefault();
                 const formData = new FormData(event.target);
-                const requestBody = JSON.stringify({
+                const requestBody = {
                     "contact-name": formData.get("contact-name"),
                     "contact-email": formData.get("contact-email"),
                     "company-name": formData.get("company-name"),
@@ -41,36 +41,36 @@
                     "mobile-number": formData.get("mobile-number"),
                     "inquiry-type": formData.get("inquiry-type"),
                     "message": formData.get("message-textarea")
-                });
-
-                let myHeaders = new Headers();
-                myHeaders.append("Content-Type", "application/json");
-                
-                var requestOptions = {
-                  method: 'POST',
-                  headers: myHeaders,
-                  body: requestBody,
-                  redirect: 'follow'
                 };
-                
-                fetch("https://shz4ddz5j3.execute-api.ap-southeast-1.amazonaws.com/TestEnv/", requestOptions)
-                  .then(response => response.text())
-                  .then(result => {
-                        MessengerExtensions.requestCloseBrowser(async function success() {
-                            //await fetch(`${window.location.origin}/post-inquiry`, {
+
+                try {
+                    const req = await fetch("https://4hpodcw43cy7tdt3p46h5s2weq0jqrqq.lambda-url.ap-southeast-1.on.aws/", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Access-Control-Allow-Origin": `${window.location.origin}`
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+
+                    if (req.status === 200) {
+                        // MessengerExtensions.requestCloseBrowser(async function success() {
+                            // await fetch(`${window.location.origin}/post-inquiry`, {
                             //    method: "POST",
-                              //  headers: {
-                                //    "Content-Type": "application/json"
-                               // },
-                               // body: JSON.stringify({ senderPsid, requestBody })
+                            //    headers: {
+                            //        "Content-Type": "application/json"
+                            //    },
+                            //    body: JSON.stringify({ senderPsid, requestBody })
                             // });
-                        }, function error(error) {
-                                console.error(error);
-                                window.top.close();
-                            }
-                        );
-                  })
-                  .catch(error => console.log('error', error));
+                        // }, function error(error) {
+                        //         console.error(error);
+                        //         window.top.close();
+                        //     }
+                        // );
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
             };
         };
     </script>
