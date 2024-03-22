@@ -43,7 +43,7 @@
                     "message": formData.get("message-textarea")
                 };
     
-                const req = await fetch("https://o5noxsqaoctrgtjzql5tg7hafm0vqnrd.lambda-url.ap-southeast-1.on.aws/", {
+                const req = await fetch("https://shz4ddz5j3.execute-api.ap-southeast-1.amazonaws.com/TestEnv/", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -56,7 +56,7 @@
                 console.log(requestBody);
     
                 if (req.status === 200) {
-                    console.log(res);
+                    console.log(res);x
                     MessengerExtensions.requestCloseBrowser(async function success() {
                         await fetch(`${window.location.origin}/post-inquiry`, {
                             method: "POST",
