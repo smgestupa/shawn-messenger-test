@@ -54,14 +54,14 @@ const getInquiryForm = (req, res) => {
     return res.render("inquiry-form.ejs");
 }
 
-const postInquiryForm = (req, res) => {
+const postInquiryForm = async (req, res) => {
     const { senderPsid, requestBody } = req.body; 
 
     const response = {
         text: `Your inquiry has been successfuly sent!\\n\\nContact Name: ${requestBody["contact-name"]}\\nContact Email: ${requestBody["contact-email"]}\\nCompany Name: ${requestBody["company-name"]}\\nCompany Email: ${requestBody["company-email"]}\\nMobile Number: ${requestBody["mobile-number"]}\\nType of Inquiry: ${requestBody["inquiry-type"]}\\nMessage: ${requestBody["message"]}`
     };
 
-    callSendAPI(senderPsid, response);
+    await callSendAPI(senderPsid, response);
 };
 
 // Handle `messages` events
