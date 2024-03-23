@@ -54,14 +54,6 @@
                     });
                     const res = await req.json();
 
-                    await fetch(`${window.location.origin}/post-inquiry`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ senderPsid, requestBody })
-                    });
-
                     if (req.status === 200) {
                         await fetch(`${window.location.origin}/post-inquiry`, {
                                method: "POST",
