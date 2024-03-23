@@ -16,6 +16,8 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'Messenger'));
 
+        let senderPsid;
+
         window.extAsyncInit = () => {
             MessengerExtensions.getContext(1384649859599741, function success(thread_context) {
                 senderPsid = thread_context.psid;
