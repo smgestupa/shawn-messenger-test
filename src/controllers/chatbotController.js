@@ -57,6 +57,8 @@ const getInquiryForm = (req, res) => {
 const postInquiryForm = async (req, res) => {
     const { senderPsid, requestBody } = req.body; 
 
+    console.log(req.body);
+
     const response = {
         text: `Your inquiry has been successfuly sent!\\n\\nContact Name: ${requestBody["contact-name"]}\\nContact Email: ${requestBody["contact-email"]}\\nCompany Name: ${requestBody["company-name"]}\\nCompany Email: ${requestBody["company-email"]}\\nMobile Number: ${requestBody["mobile-number"]}\\nType of Inquiry: ${requestBody["inquiry-type"]}\\nMessage: ${requestBody["message"]}`
     };
@@ -150,9 +152,6 @@ const callSendAPI = async (sender_psid, received_message) => {
         message: JSON.stringify(received_message),
         access_token: process.env.PAGE_ACCESS_TOKEN
     });
-
-    console.log(received_message);
-    console.log(JSON.stringify(received_message));
 
     console.log(`https://graph.facebook.com/v14.0/me/messages?${params.toString()}`);
 
