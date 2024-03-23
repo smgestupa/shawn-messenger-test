@@ -8,23 +8,21 @@
     <title>Send an inquiry</title>
     <script>        
         // Include the Messenger Extensions JS SDK
-        // (function(d, s, id){
-        //     var js, fjs = d.getElementsByTagName(s)[0];
-        //     if (d.getElementById(id)) {return;}
-        //     js = d.createElement(s); js.id = id;
-        //     js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
-        //     fjs.parentNode.insertBefore(js, fjs);
-        // }(document, 'script', 'Messenger'));
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'Messenger'));
 
-        // let senderPsid; 
-
-        // window.extAsyncInit = () => {
-        //     MessengerExtensions.getContext(1384649859599741, function success(thread_context) {
-        //         senderPsid = thread_context.psid;
-        //     }, function error(error) {
-        //         console.error(error);
-        //     });
-        // };
+        window.extAsyncInit = () => {
+            MessengerExtensions.getContext(1384649859599741, function success(thread_context) {
+                senderPsid = thread_context.psid;
+            }, function error(error) {
+                console.error(error);
+            });
+        };
         
         // Client-side code
         window.onload = () => {
@@ -52,21 +50,32 @@
                         },
                         body: JSON.stringify(requestBody)
                     });
+                    const res = await req.json();
+
+                    await fetch(`${window.location.origin}/post-inquiry`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ senderPsid, requestBody })
+                    });
 
                     if (req.status === 200) {
-                        // MessengerExtensions.requestCloseBrowser(async function success() {
-                            // await fetch(`${window.location.origin}/post-inquiry`, {
-                            //    method: "POST",
-                            //    headers: {
-                            //        "Content-Type": "application/json"
-                            //    },
-                            //    body: JSON.stringify({ senderPsid, requestBody })
-                            // });
-                        // }, function error(error) {
-                        //         console.error(error);
-                        //         window.top.close();
-                        //     }
-                        // );
+                        await fetch(`${window.location.origin}/post-inquiry`, {
+                               method: "POST",
+                               headers: {
+                                   "Content-Type": "application/json"
+                               },
+                               body: JSON.stringify({ senderPsid, requestBody })
+                        });
+
+                        MessengerExtensions.requestCloseBrowser(async function success() {
+                            console.log("WebView browser has been closed.")
+                        }, function error(error) {
+                                console.error(error);
+                                window.top.close();
+                            }
+                        );
                     }
                 } catch (error) {
                     console.error(error);
