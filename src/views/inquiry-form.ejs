@@ -30,7 +30,7 @@
         window.onload = () => {
             const inquiryForm = window.document.getElementById("inquiry-form");
     
-            inquiryForm.onsubmit = async (event) => {
+            inquiryForm.onsubmit = async (event) => {        
                 event.preventDefault();
                 const formData = new FormData(event.target);
                 const requestBody = {
@@ -168,7 +168,7 @@
         </section>
         <section>
             <label for="contact-email">Contact Email<span>*</span></label>
-            <input id="contact-email" type="text" name="contact-email" placeholder="john.doe@example.com" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" required>
+            <input id="contact-email" type="email" name="contact-email" placeholder="john.doe@example.com" required>
         </section>
         <section class="mt-3">
             <label for="company-name">Company Name<span>*</span></label>
@@ -176,7 +176,7 @@
         </section>
         <section>
             <label for="company-email">Company Email<span>*</span></label>
-            <input id="company-email" type="text" name="company-email" placeholder="jane.doe@example.com" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" required>
+            <input id="company-email" type="email" name="company-email" placeholder="jane.doe@example.com" required>
         </section>
         <section>
             <label for="mobile-number">Mobile Number<span>*</span></label>
