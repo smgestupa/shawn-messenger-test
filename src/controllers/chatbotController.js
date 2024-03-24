@@ -57,75 +57,11 @@ const getInquiryForm = (req, res) => {
 const postInquiryForm = async (req, res) => {
     const { senderPsid, requestBody } = req.body; 
 
-    console.log(req.body);
-
     const response = {
         text: `Your inquiry has been successfuly sent!\\n\\nContact Name: ${requestBody["contact-name"]}\\nContact Email: ${requestBody["contact-email"]}\\nCompany Name: ${requestBody["company-name"]}\\nCompany Email: ${requestBody["company-email"]}\\nMobile Number: ${requestBody["mobile-number"]}\\nType of Inquiry: ${requestBody["inquiry-type"]}\\nMessage: ${requestBody["message"]}`
     };
 
     await callSendAPI(senderPsid, response);
-};
-
-// Handle `messages` events
-const handleMessage = async (sender_psid, received_message) => {
-    // Always show quick replies during chat
-    // if (received_message.text || received_message.attachments) {
-    //     const quick_replies = {
-    //         text: "",
-    //         quick_replies: [
-    //             {
-    //                 content_type: "text",
-    //                 title: "Talk to an agent",
-    //                 payload: "BTN_TALK_AGENT"
-    //             },
-    //             {
-    //                 content_type: "text",
-    //                 title: "Send inquiry",
-    //                 payload: "BTN_SEND_INQUIRY"
-    //             }
-    //         ]
-    //     };
-
-    //     await callSendAPI(sender_psid, quick_replies);
-    // }
-
-    // let response;
-
-    // if (received_message.text) {
-    //     response = {
-    //         text: `You sent the message: ${received_message.text}. Now send me an image!`
-    //     };
-    // } else if (received_message.attachments) {
-    //     const attachment_url = received_message.attachments[0].payload.url;
-
-    //     response = {
-    //         attachment: {
-    //             type: "template",
-    //             payload: {
-    //                 template_type: "generic",
-    //                 elements: [{
-    //                     title: "Is this the right picture?",
-    //                     subtitle: "Choose Yes if it's correct, otherwise No.",
-    //                     image_url: attachment_url,
-    //                     buttons: [
-    //                         {
-    //                             type: "postback",
-    //                             title: "Yes",
-    //                             payload: "yes"
-    //                         },
-    //                         {
-    //                             type: "postback",
-    //                             title: "No",
-    //                             payload: "no"
-    //                         }
-    //                     ]
-    //                 }]
-    //             }
-    //         }
-    //     };
-    // }
-
-    // await callSendAPI(sender_psid, response);
 };
 
 // Handle `messaging_postbacks` events
@@ -153,8 +89,6 @@ const callSendAPI = async (sender_psid, received_message) => {
         access_token: process.env.PAGE_ACCESS_TOKEN
     });
 
-    console.log(`https://graph.facebook.com/v14.0/me/messages?${params.toString()}`);
-
     const req = await fetch(`https://graph.facebook.com/v14.0/me/messages?${params.toString()}`, 
     {
         method: "POST"
@@ -165,6 +99,7 @@ const callSendAPI = async (sender_psid, received_message) => {
         console.log("Message successfully sent!");
     } else {
         console.error(JSON.stringify(res));
+        console.log(`https://graph.facebook.com/v14.0/me/messages?${params.toString()}`);
     }
 };
 
