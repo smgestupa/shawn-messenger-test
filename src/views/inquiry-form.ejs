@@ -7,27 +7,8 @@
     <link rel="stylesheet" href="/css/reset.css">
     <title>Send an inquiry</title>
     <script>        
-        // Include the Messenger Extensions JS SDK
-        (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'Messenger'));
-
-        let senderPsid;
-        
         // Client-side code
         window.onload = () => {
-            MessengerExtensions.getContext(1384649859599741, function success(thread_context) {
-                senderPsid = thread_context.psid;
-            }, function error(error) {
-                console.error(error);
-            });
-
-            console.log(senderPsid);
-
             const inquiryForm = window.document.getElementById("inquiry-form");
     
             inquiryForm.onsubmit = async (event) => {        
@@ -54,16 +35,17 @@
                     const res = await req.json();
 
                     if (req.status === 200) {
-                        await fetch(`${window.location.origin}/post-inquiry`, {
-                               method: "POST",
-                               headers: {
-                                   "Content-Type": "application/json",
-                                   "Access-Control-Allow-Origin": `${window.location.origin}`
-                               },
-                               body: JSON.stringify({ senderPsid, requestBody })
-                        });
+                        const inquiryNotif = window.document.getElementById("inquiry-notif");
 
-                        // inquiryForm.reset();
+                        inquiryNotif.style.top = 0;
+                        inquiryNotif.getElementsByClassName("modal")[0].classList.add("success");
+                        inquiryNotif.getElementsByClassName("modal")[0].getElementsByTagName("p")[0].innerHTML = res["message"];
+
+                        setTimeout(() => {
+                            inquiryNotif.style.top = "-20%";
+                        }, 3000);
+
+                        inquiryForm.reset();
                     }
                 } catch (error) {
                     console.error(error);
@@ -135,6 +117,7 @@
             background-color: #f37321 !important;
             color: #fff;
             width: fit-content;
+            height: fit-content;
             margin: 1rem 0;
             padding: 1rem 3rem;
             transition-duration: 200ms;
@@ -146,15 +129,62 @@
 
         footer {
             text-align: right;
-            margin: 4rem 0;
+            margin: 4rem 0 3rem;
         }
 
         footer > p > span {
             color: #3498db;
         }
+
+        #inquiry-notif {
+            position: fixed;
+            top: -20%;
+            left: 0;
+            width: 100%;
+            transition-duration: 300ms;
+        }
+
+        #inquiry-notif > .modal {
+            background-color: lightgrey;
+            display: flex;
+            align-items: center;
+            column-gap: 0.5rem;
+            width: 50%;
+            margin: auto;
+            margin-top: 1rem;
+            border-radius: 4px;
+            padding: 0.5rem;
+        }
+
+        #inquiry-notif > .modal > svg {
+            display: none;
+        }
+
+        #inquiry-notif > .modal.success {
+            color: white;
+            background-color: green;
+        }
+
+        #inquiry-notif > .modal.failed {
+            color: white;
+            background-color: red;
+        }
+
+        
+        #inquiry-notif > .modal.success > svg.success-icon,
+        #inquiry-notif > .modal.failed > svg.failed-icon {
+            display: block;
+        }
     </style>
 </head>
 <body>
+    <div id="inquiry-notif">
+        <section class="modal">
+            <svg xmlns="http://www.w3.org/2000/svg" class="success-icon" width="2rem" height="2rem" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z" clip-rule="evenodd"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="failed-icon" width="2rem" height="2rem" viewBox="0 0 1024 1024"><path fill="currentColor" d="M512 64a448 448 0 1 1 0 896a448 448 0 0 1 0-896m0 192a58.43 58.43 0 0 0-58.24 63.744l23.36 256.384a35.072 35.072 0 0 0 69.76 0l23.296-256.384A58.43 58.43 0 0 0 512 256m0 512a51.2 51.2 0 1 0 0-102.4a51.2 51.2 0 0 0 0 102.4"/></svg>
+            <p>{{ response_message }}</p>
+        </section>
+    </div>
     <form id="inquiry-form" method="POST">
         <section>
             <label for="contact-name">Contact Name<span>*</span></label>
@@ -193,7 +223,7 @@
         <button type="submit">SUBMIT</button>
     </form>
     <footer>
-        <p>© 2024 - Copyright Reserved to <span id="text-highlight-ctp">Computrade Technology Philippines</span>.</p>
+        <p>Let's Connect! We'd love to talk about how we can work together</p>
     </footer>
 </body>
 </html>
