@@ -17,7 +17,7 @@
         }(document, 'script', 'Messenger'));
 
         let senderPsid;
-        
+
         window.extAsyncInit = () => {
             MessengerExtensions.getContext(1384649859599741, function success(thread_context) {
                 senderPsid = thread_context.psid;
@@ -55,8 +55,6 @@
                     });
                     const res = await req.json();
 
-                    console.log(`${window.location.origin}/post-inquiry`);
-
                     if (req.status === 200) {
                         await fetch(`${window.location.origin}/post-inquiry`, {
                                method: "POST",
@@ -66,14 +64,6 @@
                                },
                                body: JSON.stringify({ senderPsid, requestBody })
                         });
-
-                        MessengerExtensions.requestCloseBrowser(async function success() {
-                            console.log("WebView browser has been closed.");
-                        }, function error(error) {
-                                console.error(error);
-                                window.top.close();
-                            }
-                        );
 
                         // inquiryForm.reset();
                     }
