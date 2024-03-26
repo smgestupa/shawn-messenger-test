@@ -22,16 +22,14 @@ initWebRoutes(app);
 (async function() {
     try {
         const params = new URLSearchParams({
+            get_started: {
+                payload: "GET_STARTED"
+            },
             persistent_menu: JSON.stringify([
                 {
                     locale: "default",
                     composer_input_disabled: false,
                     call_to_actions: [
-                        {
-                            type: "postback",
-                            title: "Notify an agent",
-                            payload: "BTN_TALK_AGENT"
-                        },
                         {
                             type: "web_url",
                             title: "Send an inquiry",
