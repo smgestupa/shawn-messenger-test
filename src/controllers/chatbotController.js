@@ -55,6 +55,8 @@ const getInquiryForm = (req, res) => {
 const postInquiryForm = async (req, res) => {
     const { senderPsid, requestBody } = req.body; 
 
+    console.log(req.body);
+
     const response = {
         text: `Your inquiry has been successfuly sent!\\n\\nContact Name: ${requestBody["contact-name"]}\\nCompany Name: ${requestBody["company-name"]}\\nCompany Email: ${requestBody["company-email"]}\\nMobile Number: ${requestBody["mobile-number"]}\\nType of Inquiry: ${requestBody["inquiry-type"]}\\nMessage: ${requestBody["message"]}`
     };
