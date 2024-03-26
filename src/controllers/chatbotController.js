@@ -59,8 +59,6 @@ const postInquiryForm = async (req, res) => {
         text: `Your inquiry has been successfuly sent!\\n\\nContact Name: ${requestBody["contact-name"]}\\nCompany Name: ${requestBody["company-name"]}\\nCompany Email: ${requestBody["company-email"]}\\nMobile Number: ${requestBody["mobile-number"]}\\nType of Inquiry: ${requestBody["inquiry-type"]}\\nMessage: ${requestBody["message"]}`
     };
 
-    console.log(response);
-
     await callSendAPI(senderPsid, response);
 };
 
@@ -89,8 +87,6 @@ const callSendAPI = async (sender_psid, received_message) => {
         access_token: process.env.PAGE_ACCESS_TOKEN
     });
 
-    console.log(`https://graph.facebook.com/v14.0/me/messages?${params.toString()}`);
-
     const req = await fetch(`https://graph.facebook.com/v14.0/me/messages?${params.toString()}`, 
     {
         method: "POST"
@@ -101,7 +97,7 @@ const callSendAPI = async (sender_psid, received_message) => {
         console.log("Message successfully sent!");
     } else {
         console.error(JSON.stringify(res));
-        // console.log(`https://graph.facebook.com/v14.0/me/messages?${params.toString()}`);
+        console.log(`https://graph.facebook.com/v14.0/me/messages?${params.toString()}`);
     }
 };
 
