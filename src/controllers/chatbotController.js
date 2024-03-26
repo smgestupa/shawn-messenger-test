@@ -30,10 +30,8 @@ const postWebhook = (req, res) => {
     if (body.object === "page") {
         body.entry.forEach((entry) => {
             const webhook_event = entry.messaging[0];
-            // console.log(webhook_event);
-
             const sender_psid = webhook_event.sender.id;
-            // console.log(`Sender PSID: ${sender_psid}`);
+            console.log(`Sender PSID: ${sender_psid}`);
             
             // Check if the event is a message or postback
             if (webhook_event.message) {
@@ -58,8 +56,10 @@ const postInquiryForm = async (req, res) => {
     const { senderPsid, requestBody } = req.body; 
 
     const response = {
-        text: `Your inquiry has been successfuly sent!\\n\\nContact Name: ${requestBody["contact-name"]}\\nContact Email: ${requestBody["contact-email"]}\\nCompany Name: ${requestBody["company-name"]}\\nCompany Email: ${requestBody["company-email"]}\\nMobile Number: ${requestBody["mobile-number"]}\\nType of Inquiry: ${requestBody["inquiry-type"]}\\nMessage: ${requestBody["message"]}`
+        text: `Your inquiry has been successfuly sent!\\n\\nContact Name: ${requestBody["contact-name"]}\\nCompany Name: ${requestBody["company-name"]}\\nCompany Email: ${requestBody["company-email"]}\\nMobile Number: ${requestBody["mobile-number"]}\\nType of Inquiry: ${requestBody["inquiry-type"]}\\nMessage: ${requestBody["message"]}`
     };
+
+    console.log(response);
 
     await callSendAPI(senderPsid, response);
 };
@@ -70,9 +70,9 @@ const handlePostback = async (sender_psid, received_message) => {
     let response;
 
     switch (payload) {
-        case "BTN_TALK_AGENT": 
+        case "GET_STARTED":
             response = {
-                text: "An agent will be here shortly!"
+                text: "Welcome to Computrade Technology Philippines! How may we help you?"
             };
             break;
     };
@@ -89,6 +89,8 @@ const callSendAPI = async (sender_psid, received_message) => {
         access_token: process.env.PAGE_ACCESS_TOKEN
     });
 
+    console.log(`https://graph.facebook.com/v14.0/me/messages?${params.toString()}`);
+
     const req = await fetch(`https://graph.facebook.com/v14.0/me/messages?${params.toString()}`, 
     {
         method: "POST"
@@ -99,7 +101,7 @@ const callSendAPI = async (sender_psid, received_message) => {
         console.log("Message successfully sent!");
     } else {
         console.error(JSON.stringify(res));
-        console.log(`https://graph.facebook.com/v14.0/me/messages?${params.toString()}`);
+        // console.log(`https://graph.facebook.com/v14.0/me/messages?${params.toString()}`);
     }
 };
 
