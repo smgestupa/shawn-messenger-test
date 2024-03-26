@@ -46,9 +46,29 @@
                         }, 3000);
 
                         inquiryForm.reset();
+                    } else {
+                        const inquiryNotif = window.document.getElementById("inquiry-notif");
+
+                        inquiryNotif.style.top = 0;
+                        inquiryNotif.getElementsByClassName("modal")[0].classList.add("failed");
+                        inquiryNotif.getElementsByClassName("modal")[0].getElementsByTagName("p")[0].innerHTML = res["message"];
+
+                        setTimeout(() => {
+                            inquiryNotif.style.top = "-20%";
+                        }, 3000);
                     }
                 } catch (error) {
                     console.error(error);
+
+                    const inquiryNotif = window.document.getElementById("inquiry-notif");
+
+                    inquiryNotif.style.top = 0;
+                    inquiryNotif.getElementsByClassName("modal")[0].classList.add("failed");
+                    inquiryNotif.getElementsByClassName("modal")[0].getElementsByTagName("p")[0].innerHTML = "Something went wrong!";
+
+                    setTimeout(() => {
+                        inquiryNotif.style.top = "-20%";
+                    }, 3000);
                 }
             };
         };
@@ -138,10 +158,11 @@
 
         #inquiry-notif {
             position: fixed;
-            top: -20%;
+            top: 0%;
             left: 0;
             width: 100%;
             transition-duration: 300ms;
+            padding: 0 1.5rem 0 1rem;
         }
 
         #inquiry-notif > .modal {
@@ -149,11 +170,11 @@
             display: flex;
             align-items: center;
             column-gap: 0.5rem;
-            width: 50%;
+            width: fit-content;
             margin: auto;
             margin-top: 1rem;
             border-radius: 4px;
-            padding: 0.5rem;
+            padding: 0.5rem 1rem 0.5rem 0.5rem;
         }
 
         #inquiry-notif > .modal > svg {
@@ -179,10 +200,10 @@
 </head>
 <body>
     <div id="inquiry-notif">
-        <section class="modal">
+        <section class="modal success">
             <svg xmlns="http://www.w3.org/2000/svg" class="success-icon" width="2rem" height="2rem" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18m-.232-5.36l5-6l-1.536-1.28l-4.3 5.159l-2.225-2.226l-1.414 1.414l3 3l.774.774z" clip-rule="evenodd"/></svg>
             <svg xmlns="http://www.w3.org/2000/svg" class="failed-icon" width="2rem" height="2rem" viewBox="0 0 1024 1024"><path fill="currentColor" d="M512 64a448 448 0 1 1 0 896a448 448 0 0 1 0-896m0 192a58.43 58.43 0 0 0-58.24 63.744l23.36 256.384a35.072 35.072 0 0 0 69.76 0l23.296-256.384A58.43 58.43 0 0 0 512 256m0 512a51.2 51.2 0 1 0 0-102.4a51.2 51.2 0 0 0 0 102.4"/></svg>
-            <p>{{ response_message }}</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
         </section>
     </div>
     <form id="inquiry-form" method="POST">
