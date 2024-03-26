@@ -30,8 +30,10 @@ const postWebhook = (req, res) => {
     if (body.object === "page") {
         body.entry.forEach((entry) => {
             const webhook_event = entry.messaging[0];
+            // console.log(webhook_event);
+
             const sender_psid = webhook_event.sender.id;
-            console.log(`Sender PSID: ${sender_psid}`);
+            // console.log(`Sender PSID: ${sender_psid}`);
             
             // Check if the event is a message or postback
             if (webhook_event.message) {
@@ -54,8 +56,6 @@ const getInquiryForm = (req, res) => {
 
 const postInquiryForm = async (req, res) => {
     const { senderPsid, requestBody } = req.body; 
-
-    console.log(req.body);
 
     const response = {
         text: `Your inquiry has been successfuly sent!\\n\\nContact Name: ${requestBody["contact-name"]}\\nCompany Name: ${requestBody["company-name"]}\\nCompany Email: ${requestBody["company-email"]}\\nMobile Number: ${requestBody["mobile-number"]}\\nType of Inquiry: ${requestBody["inquiry-type"]}\\nMessage: ${requestBody["message"]}`

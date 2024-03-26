@@ -17,19 +17,17 @@
         }(document, 'script', 'Messenger'));
 
         let senderPsid;
-
-        window.extAsyncInit = () => {
+        
+        // Client-side code
+        window.onload = () => {
             MessengerExtensions.getContext(1384649859599741, function success(thread_context) {
                 senderPsid = thread_context.psid;
             }, function error(error) {
                 console.error(error);
             });
-        };
 
-        console.log(senderPsid);
-        
-        // Client-side code
-        window.onload = () => {
+            console.log(senderPsid);
+
             const inquiryForm = window.document.getElementById("inquiry-form");
     
             inquiryForm.onsubmit = async (event) => {        
