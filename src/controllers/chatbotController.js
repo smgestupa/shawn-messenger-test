@@ -54,16 +54,6 @@ const getInquiryForm = (req, res) => {
     return res.render("inquiry-form.ejs");
 }
 
-const postInquiryForm = async (req, res) => {
-    const { senderPsid, requestBody } = req.body; 
-
-    const response = {
-        text: `Your inquiry has been successfuly sent!\\n\\nContact Name: ${requestBody["contact-name"]}\\nCompany Name: ${requestBody["company-name"]}\\nCompany Email: ${requestBody["company-email"]}\\nMobile Number: ${requestBody["mobile-number"]}\\nType of Inquiry: ${requestBody["inquiry-type"]}\\nMessage: ${requestBody["message"]}`
-    };
-
-    await callSendAPI(senderPsid, response);
-};
-
 // Handle `messaging_postbacks` events
 const handlePostback = async (sender_psid, received_message) => {
     const payload = received_message.payload;
@@ -107,6 +97,5 @@ export default {
     getHomepage,
     getWebhook,
     getInquiryForm,
-    postWebhook,
-    postInquiryForm
+    postWebhook
 }
