@@ -35,7 +35,6 @@
                 const formData = new FormData(event.target);
                 const requestBody = {
                     "contact-name": formData.get("contact-name"),
-                    "contact-email": formData.get("contact-email"),
                     "company-name": formData.get("company-name"),
                     "company-email": formData.get("company-email"),
                     "mobile-number": formData.get("mobile-number"),
@@ -54,17 +53,20 @@
                     });
                     const res = await req.json();
 
+                    console.log(`${window.location.origin}/post-inquiry`);
+
                     if (req.status === 200) {
                         await fetch(`${window.location.origin}/post-inquiry`, {
                                method: "POST",
                                headers: {
-                                   "Content-Type": "application/json"
+                                   "Content-Type": "application/json",
+                                   "Access-Control-Allow-Origin": `${window.location.origin}`
                                },
                                body: JSON.stringify({ senderPsid, requestBody })
                         });
 
                         MessengerExtensions.requestCloseBrowser(async function success() {
-                            console.log("WebView browser has been closed.")
+                            console.log("WebView browser has been closed.");
                         }, function error(error) {
                                 console.error(error);
                                 window.top.close();
@@ -152,7 +154,7 @@
 
         footer {
             text-align: right;
-            margin-top: 4rem;
+            margin: 4rem 0;
         }
 
         footer > p > span {
@@ -165,10 +167,6 @@
         <section>
             <label for="contact-name">Contact Name<span>*</span></label>
             <input id="contact-name" type="text" name="contact-name" required>
-        </section>
-        <section>
-            <label for="contact-email">Contact Email<span>*</span></label>
-            <input id="contact-email" type="email" name="contact-email" placeholder="john.doe@example.com" required>
         </section>
         <section class="mt-3">
             <label for="company-name">Company Name<span>*</span></label>
@@ -186,12 +184,13 @@
             <label for="inquiry-type">Type of Inquiry<span>*</span></label>
             <select name="inquiry-type" id="inquiry-type" required>
                 <option value="" disabled selected>Select a type</option>
-                <option value="type-finance">Finance</option>
+                <option value="Finance">Finance/Purchasing</option>
+                <option value="Administration">Administration</option>
+                <option value="Marketing">Marketing</option>
                 <hr>
-                <optgroup label="Distribution">
-                    <option value="type-distribution-darktrace">Darktrace</option>
-                    <option value="type-distribution-malwarebytes">Malwarebytes</option>
-                    <option value="type-distribution-cloudflare">Cloudflare</option>
+                <optgroup label="Sales">
+                    <option value="Cloud Services">Darktrace</option>
+                    <option value="Cyber Security">Malwarebytes</option>
                 </optgroup>
             </select>
         </section>
