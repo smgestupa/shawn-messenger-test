@@ -70,6 +70,7 @@
 
                     setTimeout(() => {
                         inquiryNotif.style.top = "-20%";
+                        setTimeout(() => inquiryNotif.getElementsByClassName("modal")[0].classList.remove("failed"), 2000);
                     }, 3000);
                 }
             };
