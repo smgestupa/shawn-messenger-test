@@ -37,7 +37,7 @@ const postWebhook = (req, res) => {
             
             // Check if the event is a message or postback
             if (webhook_event.message) {
-                handleMessage(sender_psid, webhook_event.message);
+                // handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
             }
