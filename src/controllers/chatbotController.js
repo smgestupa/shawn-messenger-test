@@ -63,15 +63,6 @@ const handlePostback = async (sender_psid, received_message) => {
         case "GET_STARTED":
             response = {
                 text: "Welcome to Computrade Technology Philippines! How may we help you?",
-                quick_replies: [
-                    {
-                        content_type: "web_url",
-                        title: "Send an inquiry",
-                        url: "https://shawn-messenger-test.onrender.com/get-inquiry",
-                        webview_height_ratio: "tall",
-                        messenger_extensions: true
-                    }
-                ]
             };
             break;
     };
