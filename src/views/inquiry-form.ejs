@@ -43,6 +43,7 @@
 
                         setTimeout(() => {
                             inquiryNotif.style.top = "-20%";
+                            setTimeout(() => inquiryNotif.getElementsByClassName("modal")[0].classList.remove("success"), 2000);
                         }, 3000);
 
                         inquiryForm.reset();
@@ -55,6 +56,7 @@
 
                         setTimeout(() => {
                             inquiryNotif.style.top = "-20%";
+                            setTimeout(() => inquiryNotif.getElementsByClassName("modal")[0].classList.remove("failed"), 2000);
                         }, 3000);
                     }
                 } catch (error) {
